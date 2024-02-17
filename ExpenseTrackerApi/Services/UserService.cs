@@ -1,5 +1,8 @@
 ﻿using ExpenseTrackerApi.Models.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data.Entity;
 using System.Security.Claims;
+using System.Transactions;
 
 namespace ExpenseTrackerApi.Services
 {
@@ -8,7 +11,6 @@ namespace ExpenseTrackerApi.Services
         private readonly AppDbContext _appDbContext;
         private readonly EncryptService _encryptService;
         private readonly IConfiguration _configuration;
-
         public UserService(AppDbContext appDbContext, EncryptService encryptService, IConfiguration configuration)
         {
             _appDbContext = appDbContext;
@@ -19,9 +21,10 @@ namespace ExpenseTrackerApi.Services
         #region Register Service
         public async Task<int> RegisterService(UserDataModel userDataModel)
         {
+            using var transaction = _appDbContext.Database.BeginTransaction();
+
             try
             {
-                // default values
                 userDataModel.UserRole = "user";
                 userDataModel.CreateDate = userDataModel.CreateDate;
                 userDataModel.IsActive = true;
@@ -29,6 +32,44 @@ namespace ExpenseTrackerApi.Services
                 await _appDbContext.Users.AddAsync(userDataModel);
                 int result = await _appDbContext.SaveChangesAsync();
 
+                int balanceRowEffected = await CreateBalanceService(userDataModel.UserId);
+
+                if (result > 0 && balanceRowEffected > 0)
+                {
+                    transaction.Commit();
+                    return 1;
+                }
+
+                else
+                {
+                    transaction.Rollback();
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Create balance service
+        public async Task<int> CreateBalanceService(long userID)
+        {
+            try
+            {
+                if (userID == 0)
+                    return 0;
+
+                BalanceDataModel model = new()
+                {
+                    UserId = userID,
+                    Amount = 0
+                };
+
+                await _appDbContext.Balance.AddAsync(model);
+                int result = await _appDbContext.SaveChangesAsync();
                 return result;
             }
             catch (Exception ex)
