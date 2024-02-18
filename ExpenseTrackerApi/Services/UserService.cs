@@ -1,8 +1,5 @@
 ﻿using ExpenseTrackerApi.Models.Entities;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data.Entity;
 using System.Security.Claims;
-using System.Transactions;
 
 namespace ExpenseTrackerApi.Services
 {
@@ -11,11 +8,13 @@ namespace ExpenseTrackerApi.Services
         private readonly AppDbContext _appDbContext;
         private readonly EncryptService _encryptService;
         private readonly IConfiguration _configuration;
-        public UserService(AppDbContext appDbContext, EncryptService encryptService, IConfiguration configuration)
+        private readonly BalanceService _balanceService;
+        public UserService(AppDbContext appDbContext, EncryptService encryptService, IConfiguration configuration, BalanceService balanceService)
         {
             _appDbContext = appDbContext;
             _encryptService = encryptService;
             _configuration = configuration;
+            _balanceService = balanceService;
         }
 
         #region Register Service
@@ -32,7 +31,7 @@ namespace ExpenseTrackerApi.Services
                 await _appDbContext.Users.AddAsync(userDataModel);
                 int result = await _appDbContext.SaveChangesAsync();
 
-                int balanceRowEffected = await CreateBalanceService(userDataModel.UserId);
+                int balanceRowEffected = await _balanceService.CreateBalanceService(userDataModel.UserId);
 
                 if (result > 0 && balanceRowEffected > 0)
                 {
@@ -54,33 +53,9 @@ namespace ExpenseTrackerApi.Services
         }
         #endregion
 
-        #region Create balance service
-        public async Task<int> CreateBalanceService(long userID)
-        {
-            try
-            {
-                if (userID == 0)
-                    return 0;
-
-                BalanceDataModel model = new()
-                {
-                    UserId = userID,
-                    Amount = 0
-                };
-
-                await _appDbContext.Balance.AddAsync(model);
-                int result = await _appDbContext.SaveChangesAsync();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        #endregion
 
         #region Get user claims service
-        public List<Claim> GetUserClaimsService(UserDataModel user)
+        public List<Claim> GetUserClaimsService(UserDataModel user, BalanceDataModel balance)
         {
             try
             {
@@ -89,6 +64,7 @@ namespace ExpenseTrackerApi.Services
                    new Claim("UserId", _encryptService.EncryptString(user.UserId.ToString(), _configuration["EncryptionKey"]!), ClaimValueTypes.Integer),
                    new Claim("UserName", _encryptService.EncryptString(user.UserName, _configuration["EncryptionKey"]!)),
                    new Claim("Email", _encryptService.EncryptString(user.Email, _configuration["EncryptionKey"]!)),
+                   new Claim("Balance", _encryptService.EncryptString(Convert.ToString(balance.Amount), _configuration["EncryptionKey"]!))
                 };
 
                 return claims;

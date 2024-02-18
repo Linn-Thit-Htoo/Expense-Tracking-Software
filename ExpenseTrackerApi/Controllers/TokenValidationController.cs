@@ -1,6 +1,5 @@
 ﻿using ExpenseTrackerApi.Middleware;
 using ExpenseTrackerApi.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

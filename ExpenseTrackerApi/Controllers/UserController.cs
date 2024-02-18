@@ -1,10 +1,7 @@
 ﻿using ExpenseTrackerApi.Models.Entities;
 using ExpenseTrackerApi.Models.RequestModels;
 using ExpenseTrackerApi.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -69,14 +66,23 @@ namespace ExpenseTrackerApi.Controllers
             try
             {
                 UserDataModel? item = await _appDbContext.Users.Where(x => x.Email == model.Email && x.Password == model.Password && x.IsActive == true).FirstOrDefaultAsync();
-                if (item is not null)
+                if (item is null)
+                    goto LoginFail;
+
+                BalanceDataModel? balance = await _appDbContext.Balance.Where(x => x.UserId == item.UserId).FirstOrDefaultAsync();
+                if (balance is null)
+                    goto LoginFail;
+
+                if (item is not null && balance is not null)
                 {
-                    var claims = _userService.GetUserClaimsService(item);
+                    var claims = _userService.GetUserClaimsService(item, balance);
                     return Ok(new
                     {
                         access_token = new JwtSecurityTokenHandler().WriteToken(_generateTokenService.GenerateToken(claims))
                     });
                 }
+
+            LoginFail:
                 return Unauthorized("Login Fail!");
             }
             catch (Exception ex)

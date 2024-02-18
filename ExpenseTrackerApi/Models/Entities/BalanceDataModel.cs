@@ -7,7 +7,7 @@ namespace ExpenseTrackerApi.Models.Entities
         [Key]
         public long BalanceId { get; set; }
         public long UserId { get; set; }
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         public string? UpdateDate { get; set; }
     }
 }

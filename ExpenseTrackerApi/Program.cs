@@ -25,6 +25,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddTransient<CheckMiddlewareClaimsService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<BalanceService>();
 builder.Services.AddSingleton<EncryptService>();
 builder.Services.AddSingleton<DecryptService>();
 builder.Services.AddSingleton<GenerateTokenService>();
