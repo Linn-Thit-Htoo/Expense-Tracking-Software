@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExpenseTrackerApi\ExpenseTrackerApi.csproj" />
+  </ItemGroup>
+
 </Project>

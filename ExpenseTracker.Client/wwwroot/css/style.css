@@ -11674,19 +11674,3 @@ textarea.form-control {
                 background: #fbceb5;
                 color: #fff;
             }
-/*For  Navigation Color*/
-..bg-brown {
-    background-color: #8B4513; /* Brown color */
-}
-
-.bg-brown .navbar-nav .nav-link {
-    color: #fff; /* White text color */
-}
-
-    .bg-brown .navbar-nav .nav-link:hover {
-        color: #eee; /* Lighter text color on hover */
-    }
-
-.bg-brown .navbar-brand {
-    color: #fff; /* White text color for the brand */
-}

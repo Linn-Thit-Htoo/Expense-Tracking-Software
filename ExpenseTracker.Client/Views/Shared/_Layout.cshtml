@@ -7,11 +7,13 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="~/css/notiflix-3.2.7.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Login</title>
     @await RenderSectionAsync("css", required: false)
 </head>
 <body style="height: 100vh; margin: 0; padding: 0; overflow: hidden;">
-   
+
 
 
     <section class="ftco-section" style="background-image: url(images/bg.jpg); background-size: cover; background-position: center center; height: 100vh;">
@@ -28,6 +30,12 @@
     <script src="~/js/popper.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    }
+
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

@@ -3,8 +3,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
 
+#region for HttpClient
+//builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped(IServiceProvider =>
+{
+    HttpClient httpClient = new HttpClient()
+    {
+        BaseAddress = new Uri(builder.Configuration.GetSection(key: "ApiUrl").Value!)
+    };
+    return httpClient;
+});
+
+
+#endregion
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
