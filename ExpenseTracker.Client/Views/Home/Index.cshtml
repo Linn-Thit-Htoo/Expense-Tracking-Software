@@ -1,18 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Expense Tracking System";
-   
-}
-
-
-<form method="post" action="Home/Login">
-    <body class="img js-fullheight" style="background-image: url(images/bg.jpg);">
-
-        @* For Navigation  *@
-
-        @* ---Navigation End *@
-
-
-        <section class="ftco-section">
+﻿<form method="post" action="Home/Register">
+    <body>          
 
             <div class="container">
                 <div class="row justify-content-center">
@@ -37,8 +24,10 @@
                                     <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="form-control btn btn-success submit px-3" onclick="location.href='/SignUp'">Sign Up</button>
+                                    <button type="button" class="form-control btn btn-success submit px-3" onclick="location.href='/Home/Register'">Sign Up</button>
                                 </div>
+
+
                                 <div class="form-group d-md-flex">
                                     <div class="w-50">
                                         <label class="checkbox-wrap checkbox-primary">

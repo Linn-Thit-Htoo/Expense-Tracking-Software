@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Register - Expense Tracking System";
+}
+
+<form method="post" action="Home/Register">
+    <body>
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center mb-5">
+                        <h2 class="heading-section">Create an Account</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="login-wrap p-0">
+                            <form action="#" class="signin-form">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Username" name="Username" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email" name="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input id="password-field" type="password" class="form-control" placeholder="Password" name="Password" required>
+                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>
+                           
+                                <!-- Add a hidden input field for the current date -->
+                                <input type="hidden" name="RegistrationDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-success submit px-3">Sign Up</button>
+                                </div>
+                                <div class="form-group text-center">
+                                    <p class="w-100">Already have an account? <a href="/Login">Sign In</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</form>

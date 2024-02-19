@@ -479,7 +479,7 @@ mark,
     }
 
 .img-fluid {
-    max-width: 100%;
+    max-width: auto;
     height: auto;
 }
 
@@ -11674,3 +11674,5 @@ textarea.form-control {
                 background: #fbceb5;
                 color: #fff;
             }
+
+
