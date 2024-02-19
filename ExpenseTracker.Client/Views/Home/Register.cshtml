@@ -3,7 +3,7 @@
     ViewData["Title"] = "Register - Expense Tracking System";
 }
 
-<form method="post" action="Home/Register">
+<form method="post" asp-action="CreateUser" asp-controller="Home">
     <body>
         <section class="ftco-section">
             <div class="container">
@@ -26,9 +26,8 @@
                                     <input id="password-field" type="password" class="form-control" placeholder="Password" name="Password" required>
                                     <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 </div>
-                           
-                                <!-- Add a hidden input field for the current date -->
-                                <input type="hidden" name="RegistrationDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+
+                                @* <input type="hidden" name="CreateDate" value="@DateTime.Now.ToString("yyyy-MM-dd")"> *@
 
                                 <div class="form-group">
                                     <button type="submit" class="form-control btn btn-success submit px-3">Sign Up</button>

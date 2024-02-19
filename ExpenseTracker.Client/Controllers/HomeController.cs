@@ -2,9 +2,12 @@
 using ExpenseTrackerApi.Models.Entities;
 using ExpenseTrackerApi.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text;
 
 namespace ExpenseTracker.Client.Controllers
 {
@@ -70,14 +73,50 @@ namespace ExpenseTracker.Client.Controllers
             return View();
         }
 
-     
+
         public IActionResult Register()
         {
             // Your logic for the Register action
             return View();
-        
+
         }
 
+
+    
+        #region CreateUser
+        public async Task<IActionResult> CreateUser(RegisterRequestModel model)
+        {
+            try
+            {
+
+                model.CreateDate = DateTime.Now.ToString("yyyy-MM-dd");
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/User/account/register", model);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else if (response.StatusCode == HttpStatusCode.Conflict)
+                {
+                    ModelState.AddModelError(string.Empty, "User with this Email already exists. Please login.");
+                    return View(model);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                ModelState.AddModelError(string.Empty, "An error occurred during registration. Please try again.");
+                return View(model);
+            }
+        }
+        #endregion
+
+       
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -2,11 +2,12 @@
 
 namespace ExpenseTrackerApi.Models.RequestModels
 {
-    public class LoginRequestModel
+    public class RegisterRequestModel
     {
         [EmailAddress(ErrorMessage = "Email is invalid!")]
-        public  required string Email { get; set; }
+        public required string UserName { get; set; }
+        public required string Email { get; set; }
         public required string Password { get; set; }
+        public string CreateDate { get; set; }
     }
-    
 }
