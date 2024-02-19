@@ -81,8 +81,6 @@ namespace ExpenseTracker.Client.Controllers
 
         }
 
-
-    
         #region CreateUser
         public async Task<IActionResult> CreateUser(RegisterRequestModel model)
         {
@@ -94,15 +92,18 @@ namespace ExpenseTracker.Client.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["message"] = await response.Content.ReadAsStringAsync();
                     return RedirectToAction("Index");
                 }
                 else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
+                    TempData["message"] = await response.Content.ReadAsStringAsync();
                     ModelState.AddModelError(string.Empty, "User with this Email already exists. Please login.");
                     return View(model);
                 }
                 else
                 {
+                    TempData["message"] = "An Error occured!";
                     ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
                     return View(model);
                 }
@@ -116,7 +117,7 @@ namespace ExpenseTracker.Client.Controllers
         }
         #endregion
 
-       
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
