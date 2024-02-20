@@ -37,7 +37,10 @@ namespace ExpenseTrackerApi.Controllers
         {
             try
             {
-                CategoryDataModel? item = await _appDbContext.Categories.Where(x => x.CategoryId == id).AsNoTracking().FirstOrDefaultAsync();
+                CategoryDataModel? item = await _appDbContext.Categories
+                    .Where(x => x.CategoryId == id)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
                 return item is null ? NotFound("No data found.") : Ok(item);
             }
             catch (Exception ex)
@@ -53,7 +56,9 @@ namespace ExpenseTrackerApi.Controllers
         {
             try
             {
-                CategoryDataModel? item = await _appDbContext.Categories.Where(x => x.CategoryName == model.CategoryName).FirstOrDefaultAsync();
+                CategoryDataModel? item = await _appDbContext.Categories
+                    .Where(x => x.CategoryName == model.CategoryName)
+                    .FirstOrDefaultAsync();
                 if (item is not null)
                     return Conflict("Category Name already exists!");
 
@@ -75,11 +80,15 @@ namespace ExpenseTrackerApi.Controllers
         {
             try
             {
-                CategoryDataModel? item = await _appDbContext.Categories.Where(x => x.CategoryId == model.CategoryId).FirstOrDefaultAsync();
+                CategoryDataModel? item = await _appDbContext.Categories
+                    .Where(x => x.CategoryId == model.CategoryId)
+                    .FirstOrDefaultAsync();
                 if (item is null)
                     return NotFound("No data found.");
 
-                bool isDuplicate = await _appDbContext.Categories.Where(x => x.CategoryName == model.CategoryName && x.CategoryId != model.CategoryId).AnyAsync();
+                bool isDuplicate = await _appDbContext.Categories
+                    .Where(x => x.CategoryName == model.CategoryName && x.CategoryId != model.CategoryId)
+                    .AnyAsync();
                 if (isDuplicate)
                     return Conflict("Category Name already exists!");
 

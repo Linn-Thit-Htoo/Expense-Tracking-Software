@@ -76,10 +76,7 @@ namespace ExpenseTrackerApi.Controllers
                 if (item is not null && balance is not null)
                 {
                     var claims = _userService.GetUserClaimsService(item, balance);
-                    return Ok(new
-                    {
-                        access_token = new JwtSecurityTokenHandler().WriteToken(_generateTokenService.GenerateToken(claims))
-                    });
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(_generateTokenService.GenerateToken(claims)));
                 }
 
             LoginFail:

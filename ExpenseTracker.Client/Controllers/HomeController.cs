@@ -1,13 +1,8 @@
 ﻿using ExpenseTracker.Client.Models;
-using ExpenseTrackerApi.Models.Entities;
 using ExpenseTrackerApi.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text;
 
 namespace ExpenseTracker.Client.Controllers
 {
@@ -44,7 +39,7 @@ namespace ExpenseTracker.Client.Controllers
                     var token = await response.Content.ReadAsStringAsync();
 
                     // Set a local storage variable to indicate a successful login
-                    TempData["LoginSuccess"] = "true";
+                    TempData["token"] = token;
 
                     return RedirectToAction("Dashboard");
                 }
@@ -69,7 +64,6 @@ namespace ExpenseTracker.Client.Controllers
 
         public IActionResult Dashboard()
         {
-            // Your dashboard logic here
             return View();
         }
 
