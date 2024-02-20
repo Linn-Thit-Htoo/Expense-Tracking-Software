@@ -1,11 +1,24 @@
 ﻿@{
     ViewData["Title"] = "Dashboard Page";
-    var token = TempData["token"];
     Layout = null;
 }
 
 <h1>Dashboard Page</h1>
 
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    console.log("Token", @token);
+    async function encryptAndStoreToken() {
+        var token = '@Html.Raw(TempData["token"])';
+
+        if (token != null && token != "") {
+            try {
+                const response = await axios.get(`https://localhost:7287/api/encrypt?str=${token}`);
+                localStorage.setItem("token", response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+    encryptAndStoreToken();
 </script>

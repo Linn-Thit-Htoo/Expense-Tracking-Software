@@ -22,7 +22,7 @@ namespace ExpenseTrackerApi.Controllers
             if (string.IsNullOrEmpty(str))
                 return BadRequest();
 
-            string decryptedStr = _decryptService.DecryptString(str, _configuration["EncryptionKey"]);
+            string decryptedStr = _decryptService.DecryptString(str, _configuration["EncryptionKey"]!);
             return Ok(decryptedStr);
         }
     }

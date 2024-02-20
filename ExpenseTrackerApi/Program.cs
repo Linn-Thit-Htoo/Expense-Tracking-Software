@@ -30,6 +30,8 @@ builder.Services.AddSingleton<EncryptService>();
 builder.Services.AddSingleton<DecryptService>();
 builder.Services.AddSingleton<GenerateTokenService>();
 
+builder.Services.AddCors();
+
 builder.Services.AddAuthorization();
 
 // In ConfigureServices method
@@ -61,6 +63,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable CORS policy
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAuthentication();
 
