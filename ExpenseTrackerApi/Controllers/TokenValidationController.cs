@@ -28,7 +28,7 @@ namespace ExpenseTrackerApi.Controllers
             try
             {
                 string privateKey = _configuration["EncryptionKey"]!;
-                string authHeader = context.Request.Headers["Authorization"];
+                string authHeader = context.Request.Headers["Authorization"]!;
 
                 if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
                 {
@@ -54,7 +54,7 @@ namespace ExpenseTrackerApi.Controllers
                 if (principal != null)
                 {
 
-                    string? encryptedEmail = principal.FindFirst("Email").Value;
+                    string? encryptedEmail = principal.FindFirst("Email")!.Value;
 
                     bool isMemberExist = await _checkMiddlewareClaimsService.IsUserExistMiddlewareService(encryptedEmail);
 

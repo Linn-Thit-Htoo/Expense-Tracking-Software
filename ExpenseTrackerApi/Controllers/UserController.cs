@@ -4,6 +4,7 @@ using ExpenseTrackerApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ExpenseTrackerApi.Controllers
 {
@@ -75,7 +76,7 @@ namespace ExpenseTrackerApi.Controllers
 
                 if (item is not null && balance is not null)
                 {
-                    var claims = _userService.GetUserClaimsService(item, balance);
+                    List<Claim> claims = _userService.GetUserClaimsService(item, balance);
                     return Ok(new JwtSecurityTokenHandler().WriteToken(_generateTokenService.GenerateToken(claims)));
                 }
 
